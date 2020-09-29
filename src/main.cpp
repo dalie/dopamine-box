@@ -25,7 +25,15 @@ void onClick()
     currentLed = 0;
     delay(500);
     ledArray.off();
-    speaker.playMario(ledArray);
+
+    if (0 + (rand() % (1 - 0 + 1)) == 1)
+    {
+      speaker.playMario(ledArray);
+    }
+    else
+    {
+      speaker.playLittleStar(ledArray);
+    }
 
     ledArray.off();
   }

@@ -30,8 +30,8 @@ public:
     {
         Serial.print("Note duration: ");
         Serial.println(this->_noteDuration);
-        float startFequency = 16.35;
-        int keyCount = 88;
+        float startFequency = 65.41;
+        int keyCount = 61;
 
         for (int i = 0; i < keyCount; i++)
         {
@@ -66,41 +66,128 @@ public:
     {
 
         leds.on(3);
-        this->play(41, 1.0 / 4);
+        this->play(24, 1.0 / 4);
         leds.off(3);
 
         this->noteDelay(1.0 / 8);
 
         leds.on(3);
-        this->play(41, 1.0 / 4);
+        this->play(24, 1.0 / 4);
         leds.off(3);
 
         this->noteDelay(1.0 / 4);
 
         leds.on(3);
-        this->play(41, 1.0 / 8);
+        this->play(24, 1.0 / 8);
         leds.off(3);
 
         this->noteDelay(1.0 / 4);
 
         leds.on(2);
-        this->play(39, 1.0 / 8);
+        this->play(19, 1.0 / 8);
         leds.off(2);
 
         leds.on(3);
-        this->play(41, 1.0 / 8);
+        this->play(24, 1.0 / 8);
         leds.off(3);
 
         this->noteDelay(1.0 / 4);
 
         leds.on(4);
-        this->play(43, 1.0 / 4);
+        this->play(28, 1.0 / 4);
         leds.off(4);
 
         this->noteDelay(1.0 / 4);
 
         leds.on(0);
-        this->play(36, 1.0 / 4);
+        this->play(19, 1.0 / 4);
         leds.off(0);
+    }
+
+    void playLittleStar(LedArray &leds)
+    {
+        leds.on(0);
+        this->play(24, 1.0 / 4);
+        leds.off(0);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(0);
+        this->play(24, 1.0 / 4);
+        leds.off(0);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(4);
+        this->play(31, 1.0 / 4);
+        leds.off(4);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(4);
+        this->play(31, 1.0 / 4);
+        leds.off(4);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(4);
+        this->play(33, 1.0 / 4);
+        leds.off(4);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(4);
+        this->play(33, 1.0 / 4);
+        leds.off(4);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(4);
+        this->play(31, 1.0 / 4);
+        leds.off(4);
+
+        this->noteDelay(1.0 / 2);
+
+        leds.on(3);
+        this->play(29, 1.0 / 4);
+        leds.off(3);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(3);
+        this->play(29, 1.0 / 4);
+        leds.off(3);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(2);
+        this->play(28, 1.0 / 4);
+        leds.off(2);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(2);
+        this->play(28, 1.0 / 4);
+        leds.off(2);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(2);
+        this->play(26, 1.0 / 4);
+        leds.off(2);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(1);
+        this->play(26, 1.0 / 4);
+        leds.off(1);
+
+        this->noteDelay(1.0 / 8);
+
+        leds.on(0);
+        this->play(24, 1.0 / 2);
+        leds.off(0);
+
+        this->noteDelay(1.0 / 8);
     }
 };
