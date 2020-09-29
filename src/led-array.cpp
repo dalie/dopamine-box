@@ -1,30 +1,59 @@
 #include <Arduino.h>
+#include <vector>
 #include "led.cpp"
+using namespace std;
 
 class LedArray
 {
 private:
-    int frequency;
-    Led leds[];
+    int _frequency;
+    int _ledCount = 0;
+    vector<Led> _leds;
 
 public:
     LedArray() {}
-    LedArray(int pins[])
+    LedArray(int pins[], int ledCount)
     {
 
-        int n = sizeof(pins) / sizeof(*pins);
-        Led leds[n];
-
-        for (int i = 0; i < n; i++)
+        this->_ledCount = ledCount;
+        Serial.print(this->_ledCount);
+        for (int i = 0; i < this->_ledCount; i++)
         {
-            leds[i] = Led(pins[i], i * 40 + 40);
+            this->_leds.push_back(Led(pins[i], i * 40 + 40));
         }
     }
+
+    void setup()
+    {
+        for (int i = 0; i < this->_ledCount; i++)
+        {
+            this->_leds[i].setup();
+        }
+    }
+
     void on()
     {
+        for (int i = 0; i < this->_ledCount; i++)
+        {
+            this->_leds[i].on();
+        }
+    }
+
+    void on(int pin)
+    {
+        this->_leds[pin].on();
     }
 
     void off()
     {
+        for (int i = 0; i < this->_ledCount; i++)
+        {
+            this->_leds[i].off();
+        }
+    }
+
+    void off(int pin)
+    {
+        this->_leds[pin].off();
     }
 };

@@ -42,8 +42,9 @@ public:
                 this->_callback();
                 this->_clickStart = 0;
             }
-            else if (highLow == LOW)
+            else if (this->_clickStart != 0 && highLow == LOW)
             {
+                Serial.print("clickLOW");
                 this->_clickStart = 0;
             }
         }
