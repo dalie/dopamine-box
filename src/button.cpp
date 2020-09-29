@@ -21,7 +21,6 @@ public:
 
     void setup()
     {
-        Serial.print("clickSetup");
         pinMode(this->_pin, INPUT);
     }
 
@@ -33,18 +32,15 @@ public:
 
             if (this->_clickStart == 0 && highLow == HIGH)
             {
-                Serial.print("clickStart");
                 this->_clickStart = millis();
             }
             else if (this->_clickStart != 0 && highLow == LOW && millis() - this->_clickStart > this->_clickDelay)
             {
-                Serial.print("clickDone");
                 this->_callback();
                 this->_clickStart = 0;
             }
             else if (this->_clickStart != 0 && highLow == LOW)
             {
-                Serial.print("clickLOW");
                 this->_clickStart = 0;
             }
         }

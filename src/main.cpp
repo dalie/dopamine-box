@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#include "led-array.cpp"
 #include "button.cpp"
+#include "speaker.cpp"
 
 Button button(7);
-
+Speaker speaker(2, 80);
 const int animationDelay = 75;
 
 int up = 0;
@@ -16,22 +16,16 @@ int currentLed = 0;
 
 void onClick()
 {
-  ledArray.on(currentLed);
 
+  ledArray.on(currentLed);
+  speaker.play(40 + currentLed, 1.0 / 4);
   currentLed++;
   if (currentLed >= ledCount)
   {
     currentLed = 0;
-
     delay(500);
-
-    for (int i = 0; i < 5; i++)
-    {
-      ledArray.off();
-      delay(500);
-      ledArray.on();
-      delay(500);
-    }
+    ledArray.off();
+    speaker.playMario(ledArray);
 
     ledArray.off();
   }
@@ -43,10 +37,12 @@ void setup()
 
   ledArray.setup();
   button.setup();
+  speaker.setup();
   button.onClick(onClick);
 }
 
 void loop()
 {
   button.loop();
+  speaker.loop();
 }

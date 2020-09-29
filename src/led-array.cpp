@@ -16,7 +16,6 @@ public:
     {
 
         this->_ledCount = ledCount;
-        Serial.print(this->_ledCount);
         for (int i = 0; i < this->_ledCount; i++)
         {
             this->_leds.push_back(Led(pins[i], i * 40 + 40));
