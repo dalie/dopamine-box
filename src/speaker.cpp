@@ -7,6 +7,7 @@ using namespace std;
 class Speaker
 {
 private:
+    LedArray &_leds;
     std::map<int, float> _notes;
     float _noteDuration;
 
@@ -18,18 +19,16 @@ private:
     }
 
 public:
-    Speaker() {}
-    Speaker(int pin, double bpm)
+    Speaker(int pin, double bpm, LedArray &leds) : _leds(leds)
     {
 
+        this->_leds = leds;
         this->_pin = pin;
         this->_noteDuration = round((1000 * 60.0) / bpm);
     }
 
     void setup()
     {
-        Serial.print("Note duration: ");
-        Serial.println(this->_noteDuration);
         float startFequency = 65.41;
         int keyCount = 61;
 
@@ -43,151 +42,76 @@ public:
     {
     }
 
-    void play(int key, float noteDuration)
+    void play(int key, float noteDuration, int led = -1)
     {
+        if (led > -1)
+        {
+            this->_leds.on(led);
+        }
         int duration = round(noteDuration * this->_noteDuration);
-        tone(this->_pin, round(this->_notes[key]), duration);
-        Serial.print("Note:");
-        Serial.println(round(this->_notes[key]));
-        Serial.print("Note duration:");
-        Serial.println(duration);
+        //tone(this->_pin, round(this->_notes[key]), duration);
         delay(duration);
+        if (led > -1)
+        {
+            this->_leds.off(led);
+        }
+        this->noteDelay(1.0 / 8);
     }
 
     void noteDelay(float noteDuration)
     {
-        int duration = round(noteDuration * this->_noteDuration);
-        Serial.print("Delay:");
-        Serial.println(duration);
-        delay(duration);
+        delay(round(noteDuration * this->_noteDuration));
     }
 
-    void playMario(LedArray &leds)
+    void playMario()
     {
-
-        leds.on(3);
-        this->play(24, 1.0 / 4);
-        leds.off(3);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(3);
-        this->play(24, 1.0 / 4);
-        leds.off(3);
-
+        this->play(24, 1.0 / 4, 3);
+        this->play(24, 1.0 / 4, 3);
         this->noteDelay(1.0 / 4);
 
-        leds.on(3);
-        this->play(24, 1.0 / 8);
-        leds.off(3);
-
+        this->play(24, 1.0 / 8, 3);
         this->noteDelay(1.0 / 4);
 
-        leds.on(2);
-        this->play(19, 1.0 / 8);
-        leds.off(2);
-
-        leds.on(3);
-        this->play(24, 1.0 / 8);
-        leds.off(3);
-
+        this->play(19, 1.0 / 8, 2);
+        this->play(24, 1.0 / 8, 3);
         this->noteDelay(1.0 / 4);
 
-        leds.on(4);
-        this->play(28, 1.0 / 4);
-        leds.off(4);
-
+        this->play(28, 1.0 / 4, 4);
         this->noteDelay(1.0 / 4);
 
-        leds.on(0);
-        this->play(19, 1.0 / 4);
-        leds.off(0);
+        this->play(19, 1.0 / 4, 0);
     }
 
-    void playLittleStar(LedArray &leds)
+    void playLittleStar()
     {
-        leds.on(0);
-        this->play(24, 1.0 / 4);
-        leds.off(0);
 
-        this->noteDelay(1.0 / 8);
+        this->play(24, 1.0 / 4, 0);
+        this->play(24, 1.0 / 4, 0);
+        this->play(31, 1.0 / 4, 4);
+        this->play(31, 1.0 / 4, 4);
+        this->play(33, 1.0 / 4, 4);
+        this->play(33, 1.0 / 4, 4);
+        this->play(31, 1.0 / 4, 4);
+        this->play(29, 1.0 / 4, 3);
+        this->play(29, 1.0 / 4, 3);
+        this->play(28, 1.0 / 4, 2);
+        this->play(28, 1.0 / 4, 2);
+        this->play(26, 1.0 / 4, 2);
+        this->play(26, 1.0 / 4, 1);
+        this->play(24, 1.0 / 2, 0);
+    }
 
-        leds.on(0);
-        this->play(24, 1.0 / 4);
-        leds.off(0);
+    void playPassePartout()
+    {
 
-        this->noteDelay(1.0 / 8);
-
-        leds.on(4);
-        this->play(31, 1.0 / 4);
-        leds.off(4);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(4);
-        this->play(31, 1.0 / 4);
-        leds.off(4);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(4);
-        this->play(33, 1.0 / 4);
-        leds.off(4);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(4);
-        this->play(33, 1.0 / 4);
-        leds.off(4);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(4);
-        this->play(31, 1.0 / 4);
-        leds.off(4);
-
-        this->noteDelay(1.0 / 2);
-
-        leds.on(3);
-        this->play(29, 1.0 / 4);
-        leds.off(3);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(3);
-        this->play(29, 1.0 / 4);
-        leds.off(3);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(2);
-        this->play(28, 1.0 / 4);
-        leds.off(2);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(2);
-        this->play(28, 1.0 / 4);
-        leds.off(2);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(2);
-        this->play(26, 1.0 / 4);
-        leds.off(2);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(1);
-        this->play(26, 1.0 / 4);
-        leds.off(1);
-
-        this->noteDelay(1.0 / 8);
-
-        leds.on(0);
-        this->play(24, 1.0 / 2);
-        leds.off(0);
-
-        this->noteDelay(1.0 / 8);
+        this->play(19, 1.0 / 2, 2);
+        this->play(23, 1.0 / 4, 4);
+        this->play(21, 1.0 / 4, 3);
+        this->play(19, 1.0 / 2, 2);
+        this->play(19, 1.0 / 4, 2);
+        this->play(19, 1.0 / 4, 2);
+        this->play(18, 1.0 / 2, 1);
+        this->play(19, 1.0 / 2, 2);
+        this->play(16, 1.0 / 2, 0);
     }
 };
