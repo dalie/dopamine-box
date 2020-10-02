@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include "led-array.cpp"
+
 using namespace std;
 
 class Speaker
@@ -49,7 +50,7 @@ public:
             this->_leds.on(led);
         }
         int duration = round(noteDuration * this->_noteDuration);
-        //tone(this->_pin, round(this->_notes[key]), duration);
+        tone(this->_pin, round(this->_notes[key]), duration);
         delay(duration);
         if (led > -1)
         {
@@ -91,7 +92,8 @@ public:
         this->play(31, 1.0 / 4, 4);
         this->play(33, 1.0 / 4, 4);
         this->play(33, 1.0 / 4, 4);
-        this->play(31, 1.0 / 4, 4);
+        this->play(31, 1.0 / 2, 4);
+        this->noteDelay(1.0 / 8);
         this->play(29, 1.0 / 4, 3);
         this->play(29, 1.0 / 4, 3);
         this->play(28, 1.0 / 4, 2);

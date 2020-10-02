@@ -1,27 +1,25 @@
 #include <Arduino.h>
 
-typedef void (*clickCallback)(void);
+typedef void (*clickCallback)(int ledIndex);
 
 class Button
 {
 private:
+    bool _isLedOn = false;
+    int _ledIndex;
     int _pin;
     unsigned int _clickDelay = 75;
     unsigned long _clickStart = 0;
     clickCallback _callback = NULL;
 
 public:
-    Button()
-    {
-    }
-    Button(int pin)
-    {
-        this->_pin = pin;
-    }
+    Button() {}
 
-    void setup()
+    void setup(int pin, int ledIndex)
     {
-        pinMode(this->_pin, INPUT);
+        this->_ledIndex = ledIndex;
+        this->_pin = pin;
+        pinMode(this->_pin, INPUT_PULLUP);
     }
 
     void loop()
@@ -30,20 +28,38 @@ public:
         {
             int highLow = digitalRead(this->_pin);
 
-            if (this->_clickStart == 0 && highLow == HIGH)
+            if (this->_clickStart == 0 && highLow == LOW)
             {
                 this->_clickStart = millis();
             }
-            else if (this->_clickStart != 0 && highLow == LOW && millis() - this->_clickStart > this->_clickDelay)
+            else if (this->_clickStart != 0 && highLow == HIGH && millis() - this->_clickStart > this->_clickDelay)
             {
-                this->_callback();
+                this->_isLedOn = !this->_isLedOn;
+
+                this->_callback(this->_ledIndex);
+
                 this->_clickStart = 0;
             }
-            else if (this->_clickStart != 0 && highLow == LOW)
+            else if (this->_clickStart != 0 && highLow == HIGH)
             {
                 this->_clickStart = 0;
             }
         }
+    }
+
+    int getLedIndex()
+    {
+        return this->_ledIndex;
+    }
+
+    bool isLedOn()
+    {
+        return this->_isLedOn;
+    }
+
+    void setLed(bool isLedOn)
+    {
+        this->_isLedOn = isLedOn;
     }
 
     void onClick(clickCallback callback)
