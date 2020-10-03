@@ -5,22 +5,26 @@
 
 int buttonCount = 5;
 int buttonPins[5] = {3, 5, 7, 9, 11};
-Button buttons[5];
-const int animationDelay = 75;
-
 int ledCount = 5;
 int ledPins[5] = {4, 6, 8, 10, 12};
+
+Button buttons[5];
 LedArray ledArray(ledPins, 5);
-
 Speaker speaker(2, 80, ledArray);
-
 int currentSong = 0;
 
-void onClick(int ledIndex)
+void onClick(int index)
 {
-  Serial.println("button clicked");
-  ledArray.on(ledIndex);
-  speaker.play(40 + ledIndex, 1.0 / 4);
+  if (buttons[index].isLedOn())
+  {
+    ledArray.on(index);
+  }
+  else
+  {
+    ledArray.off(index);
+  }
+
+  speaker.play(40 + index * 2, 1.0 / 4);
 
   int currentLedOn = 0;
 
@@ -37,10 +41,6 @@ void onClick(int ledIndex)
 
     delay(500);
     ledArray.off();
-    for (int i = 0; i < buttonCount; i++)
-    {
-      buttons[i].setLed(false);
-    }
 
     if (currentSong == 0)
     {
@@ -62,6 +62,10 @@ void onClick(int ledIndex)
     }
 
     ledArray.off();
+    for (int i = 0; i < buttonCount; i++)
+    {
+      buttons[i].setLed(false);
+    }
   }
 }
 
@@ -85,17 +89,6 @@ void setup()
   buttons[3].onClick(onClick);
   buttons[4].setup(buttonPins[4], 4);
   buttons[4].onClick(onClick);
-
-  /* for (int i = 0; i < buttonCount; i++)
-  {
-
-    Button b = buttons[i];
-
-    b.setup();
-    b.onClick(onClick);
-    Serial.print("Setup:");
-    Serial.println(b.getLedIndex());
-  } */
 }
 
 void loop()
