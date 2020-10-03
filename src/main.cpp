@@ -13,53 +13,31 @@ LedArray ledArray(ledPins, 5);
 Speaker speaker(2, 80, ledArray);
 int currentSong = 0;
 
+vector<int> currentSequence;
+
 void onClick(int index)
 {
   if (buttons[index].isLedOn())
   {
     ledArray.on(index);
+    currentSequence.push_back(index);
   }
   else
   {
     ledArray.off(index);
+    currentSequence.pop_back();
   }
 
   speaker.play(40 + index * 2, 1.0 / 4);
 
-  int currentLedOn = 0;
-
-  for (int i = 0; i < buttonCount; i++)
-  {
-    if (buttons[i].isLedOn())
-    {
-      currentLedOn++;
-    }
-  }
-
-  if (currentLedOn >= ledCount)
+  if (currentSequence.size() >= ledCount)
   {
 
     delay(500);
     ledArray.off();
 
-    if (currentSong == 0)
-    {
-      speaker.playMario();
-    }
-    else if (currentSong == 1)
-    {
-      speaker.playLittleStar();
-    }
-    else if (currentSong == 2)
-    {
-      speaker.playPassePartout();
-    }
-
-    currentSong++;
-    if (currentSong > 2)
-    {
-      currentSong = 0;
-    }
+    speaker.playSequence(currentSequence);
+    currentSequence.clear();
 
     ledArray.off();
     for (int i = 0; i < buttonCount; i++)

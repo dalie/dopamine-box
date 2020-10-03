@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <vector>
 #include <string>
 #include <map>
 #include "led-array.cpp"
@@ -8,6 +9,8 @@ using namespace std;
 class Speaker
 {
 private:
+    vector<vector<int>> sequences = {{0, 1, 2, 3, 4}, {4, 3, 2, 1, 0}, {0, 2, 4, 1, 3}};
+
     LedArray &_leds;
     std::map<int, float> _notes;
     float _noteDuration;
@@ -57,6 +60,38 @@ public:
             this->_leds.off(led);
         }
         this->noteDelay(1.0 / 8);
+    }
+
+    void playSequence(vector<int> sequence)
+    {
+
+        bool foundSequence = false;
+        for (int i = 0; i < this->sequences.size(); i++)
+        {
+            if (sequence == sequences[i])
+            {
+                foundSequence = true;
+                switch (i)
+                {
+                case 0:
+                    this->playLittleStar();
+                    break;
+
+                case 1:
+                    this->playPassePartout();
+                    break;
+
+                case 2:
+                    this->playMario();
+                    break;
+                }
+            }
+        }
+
+        if (!foundSequence)
+        {
+            this->playLittleStar();
+        }
     }
 
     void noteDelay(float noteDuration)
